@@ -7,13 +7,13 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   private int size;
 
   public SinglyLinkedList() {
-    this.head = new Node(null);
-    this.tail = new Node(null);
+    this.head = new Node<T>(null);
+    this.tail = new Node<T>(null);
     this.size = 0;
   }
 
   public void add(T element) {
-    Node<T> node = new Node(element);
+    Node<T> node = new Node<T>(element);
 
     if (this.size == 0) {
       this.head = node;
@@ -61,27 +61,27 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   }
 
   public boolean isEmpty() {
-
+    return true; //STUB
   }
 
   public int size() {
-
+    return 0; //STUB
   }
 
   public T getNthFromFirst(int n) {
-
+    return head.getData(); //STUB
   }
 
   public T getNthFromLast(int n) {
-
+    return head.getData(); //STUB
   }
 
-  public SinglyLinkedListIterator<T> iterator() {
+  public SinglyLinkedListIterator iterator() {
     return new SinglyLinkedListIterator();
   }
 
   public String toString() {
-
+    return ""; //STUB
   }
 
   /***********************************
@@ -116,21 +116,29 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   /***********************************
    * SinglyLinkedListIterator
    ***********************************/
-  private class SinglyLinkedListIterator implements Iterable<T> {
+  private class SinglyLinkedListIterator implements Iterator<T> {
+    private Node<T> currentNode;
+
     public SinglyLinkedListIterator() {
-
+      currentNode = head;
     }
-    public boolean hasNext() {
 
+    public boolean hasNext() {
+      return (currentNode.getNextNode() == null) ? false : true;
     }
 
     public T next() {
-
+      if (currentNode.getNextNode() == null) {
+        throw new NoSuchElementException("iterator has reached the end");
+      }
+      currentNode = currentNode.getNextNode();
+      return currentNode.getNextNode().getData();
     }
 
-    public void remove () {
+    public void remove() {
       throw new UnsupportedOperationException("remove operation is not supported by this iterator");
     }
-  }
+
+  } // e SinglyLinkedListIterator
 
 }
