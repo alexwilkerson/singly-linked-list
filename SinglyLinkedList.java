@@ -2,13 +2,12 @@ import java.util.*;
 
 public class SinglyLinkedList<T> implements Iterable<T> {
 
-  private Node<T> head;
-  private Node<T> tail;
+  private Node<T> head; // head is empty
+  private Node<T> tail; // tail is last node
   private int size;
 
   public SinglyLinkedList() {
     this.head = new Node<T>(null);
-    this.tail = new Node<T>(null);
     this.size = 0;
   }
 
@@ -16,13 +15,23 @@ public class SinglyLinkedList<T> implements Iterable<T> {
     Node<T> node = new Node<T>(element);
 
     if (this.size == 0) {
-      this.head = node;
+      this.head.setNextNode(node);
     } else {
       this.tail.setNextNode(node);
     }
     this.tail = node;
     this.size++;
   } 
+
+  public void getInfo() {
+    System.out.println("***************************************************");
+    System.out.println("************* SinglyLinkedList Info ***************");
+    System.out.println("***************************************************");
+    System.out.println("head: " + this.head.getData());
+    System.out.println("tail: " + this.tail.getData());
+    System.out.println("size: " + this.size);
+    System.out.println("***************************************************");
+  }
 
   public void insertAt(T data, int index) {
 
@@ -131,8 +140,9 @@ public class SinglyLinkedList<T> implements Iterable<T> {
       if (currentNode.getNextNode() == null) {
         throw new NoSuchElementException("iterator has reached the end");
       }
+      T returnValue = currentNode.getNextNode().getData();
       currentNode = currentNode.getNextNode();
-      return currentNode.getNextNode().getData();
+      return returnValue;
     }
 
     public void remove() {
