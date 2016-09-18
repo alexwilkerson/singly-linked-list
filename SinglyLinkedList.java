@@ -2,9 +2,9 @@ import java.util.*;
 
 public class SinglyLinkedList<T> implements Iterable<T> {
 
-  private Node<T> head; // head is empty
-  private Node<T> tail; // tail is last node
-  private int size;
+  protected Node<T> head; // head is empty
+  protected Node<T> tail; // tail is last node
+  protected int size;
 
   public SinglyLinkedList() {
     this.head = new Node<T>(null);
@@ -99,6 +99,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   // a string that looks similar to the java toString from
   // java.util.Arrays
   public String toString() {
+    if (size == 0) return "[]";
     String returnString = "[";
     for (T element : this) {
       returnString += element + ", ";
@@ -111,9 +112,9 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   /***********************************
    * Node class
    ***********************************/
-  private static class Node<T> {
-    private T data;
-    private Node<T> next;
+  protected static class Node<T> {
+    protected T data;
+    protected Node<T> next;
 
     public Node(T data) {
       this.data = data;
