@@ -23,74 +23,89 @@ public class SinglyLinkedList<T> implements Iterable<T> {
     this.size++;
   } 
 
-  public void getInfo() {
-    System.out.println("***************************************************");
-    System.out.println("************* SinglyLinkedList Info ***************");
-    System.out.println("***************************************************");
-    System.out.println("head: " + this.head.getData());
-    System.out.println("tail: " + this.tail.getData());
-    System.out.println("size: " + this.size);
-    System.out.println("***************************************************");
-  }
-
   public void insertAt(T data, int index) {
-
+    if (index > this.size || index < 0) {
+      throw new IndexOutOfBoundsException("cannot insert at this index. out of bounds.");
+    }
+    Node<T> newNode = new Node<T>(data);
+    Node<T> tempNode = this.head;
+    for (int i = 0; i < index; i++) {
+      tempNode = tempNode.getNextNode();
+    }
+    newNode.setNextNode(tempNode.getNextNode());
+    tempNode.setNextNode(newNode);
+    if (index == this.size) this.tail = newNode;
+    this.size++;
   }
 
-  /*
+  // this method iterates through the list and if it 
+  // finds a match, it sets the next node of the previous
+  // element to the next node of the next node. the
+  // matched element will then be removed by the garbage
+  // collector.
   public void remove(T data) {
-    Node<T> previousNode;
-    Node<T> currentNode = this.head;
+    Node<T> tempNode = this.head;
     for (int i = 0; i < this.size; i++) {
-      if (currentNode.getData() == data && i == 0) {
-        this.head.setNextNode(currentNode.getNextNode());
-        currentNode.setNextNode(null);
+      if (tempNode.getNextNode().getData() == data) {
+        tempNode.setNextNode(tempNode.getNextNode().getNextNode());
         this.size--;
-        return;
-      } else if (currentNode.getData() == data && i == this.size){
-        previousNode.setNextNode(null);
-        this.tailNode.setNextNode(previousNode);
-        currentNode.setNextNode(null);
-        this.size--;
-        return;
-      } else if (currentNode.getData() == data) {
-        previousNode.setNextNode(currentNode.getNextNode());
-        currentNode.setNextNode(null);
-        this.size--;
+        if (i == size) this.tail = tempNode;
         return;
       }
-      previousNode = currentNode;
-      currentNode = currentNode.getNextNode();
+      tempNode = tempNode.getNextNode();
     }
+    throw new NoSuchElementException("no element found.");
   }
-  */
 
   public void clear() {
-
+    this.head.setNextNode(null);
+    this.tail = null;
+    size = 0;
   }
 
   public boolean isEmpty() {
-    return true; //STUB
+    return (this.size == 0) ? true : false;
   }
 
   public int size() {
-    return 0; //STUB
+    return this.size;
   }
 
   public T getNthFromFirst(int n) {
-    return head.getData(); //STUB
+    if (n > size - 1 || n < 0) throw new IndexOutOfBoundsException("out of bounds.");
+    if (n == size-1) return this.tail.getData(); // added for efficiency
+    Node<T> tempNode = this.head;
+    for(int i = 0; i < n; i++) {
+      tempNode = tempNode.getNextNode();
+    }
+    return tempNode.getNextNode().getData();
   }
 
   public T getNthFromLast(int n) {
-    return head.getData(); //STUB
+    if (n > size - 1 || n < 0) throw new IndexOutOfBoundsException("out of bounds.");
+    if (n == 0) return this.tail.getData(); // added for efficiency
+    Node<T> tempNode = this.head;
+    for(int i = 0; i < size-1-n; i++) {
+      tempNode = tempNode.getNextNode();
+    }
+    return tempNode.getNextNode().getData();
   }
 
   public SinglyLinkedListIterator iterator() {
     return new SinglyLinkedListIterator();
   }
 
+  // used an iterator to go over the elements and make
+  // a string that looks similar to the java toString from
+  // java.util.Arrays
   public String toString() {
-    return ""; //STUB
+    String returnString = "[";
+    for (T element : this) {
+      returnString += element + ", ";
+    }
+    returnString = returnString.substring(0, returnString.length()-2);
+    returnString += "]";
+    return returnString;
   }
 
   /***********************************
