@@ -54,7 +54,6 @@ public class Startup {
         while (!myStack.isEmpty() && !myStack.getNthFromLast(0).equals("(") && precedence(c) <= precedence(myStack.getNthFromLast(0))) {
           postfix += myStack.pop();
         }
-        if (c.equals("-")) myStack.push("e");
         myStack.push(c);
       }
     }
@@ -67,7 +66,6 @@ public class Startup {
   public static int precedence(String c) {
     if (c.equals("^")) return 2;
     if (c.equals("/") || c.equals("*")) return 1;
-    if (c.equals("-") || c.equals("+")) return 0;
-    return -1;
+    return 0;
   }
 }
