@@ -99,7 +99,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
   // a string that looks similar to the java toString from
   // java.util.Arrays
   public String toString() {
-    if (size == 0) return "[]";
+    if (size < 1) return "[]";
     String returnString = "[";
     for (T element : this) {
       returnString += element + ", ";
