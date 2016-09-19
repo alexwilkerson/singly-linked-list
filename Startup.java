@@ -5,15 +5,16 @@ public class Startup {
   public static Scanner scanner = new Scanner(System.in);
   public static MyStack<String> myStack = new MyStack<String>();
   public static String input;
+  public static String result;
   public static String operands = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  public static String operators = "+=*/^";
+  public static String operators = "+-*/^";
 
   public static void main(String[] args) {
 
     printTitle();
     while(true) {
-      printInput();
-      System.out.println(infixToPostfix(input));
+      getInput();
+      printResult();
     }
   }
 
@@ -29,18 +30,51 @@ public class Startup {
     System.out.println();
   }
 
-  public static void printInput() {
+  public static void getInput() {
     System.out.println("Enter an infix expression (type \"quit\" to quit):");
     input = scanner.nextLine();
     if (input.trim().toLowerCase().equals("quit")) System.exit(0);
+  }
+
+  public static void printResult() {
+    if (!checkParens(input)) {
+      System.out.println();
+      System.out.println("Illegal expression. Parentheses do not match.");
+      System.out.println();
+      return;
+    }
+    result = infixToPostfix(input);
+    System.out.println();
+    System.out.println("Postfix converted expression: " + result);
+    System.out.println();
+  }
+
+  public static boolean checkParens(String testString) {
+    MyStack<String> testStack = new MyStack<String>();
+    String[] testArray = testString.trim().split("");
+
+    for (String c : testArray) {
+      if (c.equals(")") && !testStack.isEmpty()) {
+        testStack.pop();
+      } else if (c.equals(")") && testStack.isEmpty()) {
+        return false;
+      } else if (c.equals("(")) {
+        testStack.push(c);
+      }
+    }
+
+    if (testStack.isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+    
   }
 
   public static String infixToPostfix(String infix) {
     String postfix = "";
     String[] infixArray = infix.trim().split("");
     for (String c : infixArray) {
-      System.out.println(postfix);
-      System.out.println(myStack);
       if (operands.indexOf(c) > -1) {
         postfix += c;
       } else if (c.equals("(")) {
@@ -51,7 +85,9 @@ public class Startup {
         }
         myStack.pop();
       } else if (operators.indexOf(c) > -1) {
-        while (!myStack.isEmpty() && !myStack.getNthFromLast(0).equals("(") && precedence(c) <= precedence(myStack.getNthFromLast(0))) {
+        while (!myStack.isEmpty() &&
+               !myStack.getNthFromLast(0).equals("(") &&
+               precedence(c) <= precedence(myStack.getNthFromLast(0))) {
           postfix += myStack.pop();
         }
         myStack.push(c);
