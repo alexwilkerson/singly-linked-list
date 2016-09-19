@@ -1,9 +1,24 @@
+/***********************************
+  * MyStack Class
+  * Created by: Alex Wilkerson
+  * Homework 1
+  * Date: 09.18.2016
+  ***********************************/
+// this class extends the SinglyLinkedList
+// and adds two additional functions. the
+// homework required implementation of the
+// isEmpty class, but it is not implemented
+// here because it is redundant.
 public class MyStack<T> extends SinglyLinkedList<T> {
 
   public MyStack() {
     super();
   }
 
+  // pop iterates through the list and when the
+  // function reaches the second to last node
+  // returns the value of the last node, then
+  // removes the reference.
   public T pop() {
     if (!this.isEmpty()) {
       T returnValue = this.tail.getData();
@@ -20,8 +35,12 @@ public class MyStack<T> extends SinglyLinkedList<T> {
     }
   }
 
+  // push is simply a different name for add.
   public void push (T value) {
     this.add(value);
   }
+
+  // isEmpty() is not implemented here because it
+  // is inherited from the SinglyLinkedList class.
 
 }
